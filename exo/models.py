@@ -4,13 +4,15 @@ from pathlib import Path
 
 def get_model(model_name: str, local_cache_dir: Path):
     registry_url = "http://localhost:8081/models"
-    local_file_server = "http://localhost:8082/models"
+    local_file_server = "http://localhost:8082/"
 
     # Check if model is in local registry
     response = requests.get(f"{registry_url}/{model_name}")
     if response.status_code == 200:
         # Model is available locally
         model_url = f"{local_file_server}/{model_name}"
+
+        print("==================good job ====================\n", model_url)
     else:
         # Model not available locally, use Hugging Face
         model_url = f"https://huggingface.co/{model_name}/resolve/main/model.safetensors"

@@ -4,6 +4,7 @@ import os
 class ModelFileHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=os.environ.get('MODEL_DIR', '.'), **kwargs)
+        print(os.environ.get('MODEL_DIR', '.'))
 
 if __name__ == '__main__':
     httpd = HTTPServer(('0.0.0.0', 8082), ModelFileHandler)
