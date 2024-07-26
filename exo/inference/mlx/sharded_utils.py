@@ -164,6 +164,11 @@ async def get_model_path(path_or_hf_repo: str, revision: Optional[str] = None) -
         Path: The path to the model.
     """
     model_path = Path(path_or_hf_repo)
+
+    # debug
+    print("【zhanglu】 model_path:", model_path)
+
+
     if not model_path.exists():
         try:
             model_path = Path(
