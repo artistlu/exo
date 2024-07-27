@@ -53,7 +53,7 @@ class ChatCompletionRequest:
 
 def resolve_tinygrad_tokenizer(model_id: str):
     if model_id == "llama3-8b-sfr":
-        return AutoTokenizer.from_pretrained("TriAiExperiments/SFR-Iterative-DPO-LLaMA-3-8B-R")
+        return AutoTokenizer.from_pretrained("/nasroot/modules/Meta-Llama-3-8B")
     elif model_id == "llama3-70b-sfr":
         return AutoTokenizer.from_pretrained("TriAiExperiments/SFR-Iterative-DPO-LLaMA-3-8B-R")
     else:

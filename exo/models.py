@@ -6,6 +6,7 @@ def get_model(model_name: str, local_cache_dir: Path):
     registry_url = "http://localhost:8081/models"
     local_file_server = "http://localhost:8082/"
 
+    print("<<==================good job ====================>>\n", model_name)
     # Check if model is in local registry
     response = requests.get(f"{registry_url}/{model_name}")
     if response.status_code == 200:

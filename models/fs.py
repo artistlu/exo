@@ -7,5 +7,5 @@ class ModelFileHandler(SimpleHTTPRequestHandler):
         print(os.environ.get('MODEL_DIR', '.'))
 
 if __name__ == '__main__':
-    httpd = HTTPServer(('0.0.0.0', 8082), ModelFileHandler)
+    httpd = HTTPServer(('0.0.0.0', 8088), ModelFileHandler)
     httpd.serve_forever()
