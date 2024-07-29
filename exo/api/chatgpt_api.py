@@ -60,7 +60,7 @@ class ChatCompletionRequest:
 
 def resolve_tinygrad_tokenizer(model_id: str):
   if model_id == "llama3-8b-sfr":
-    return AutoTokenizer.from_pretrained("/nasroot/models/Meta-Llama-3-8B")
+    return AutoTokenizer.from_pretrained("/nasroot/models/Qwen-1_8B-Chat")
     # return AutoTokenizer.from_pretrained("TriAiExperiments/SFR-Iterative-DPO-LLaMA-3-8B-R")
   elif model_id == "llama3-70b-sfr":
     return AutoTokenizer.from_pretrained("TriAiExperiments/SFR-Iterative-DPO-LLaMA-3-8B-R")
@@ -71,8 +71,8 @@ def resolve_tinygrad_tokenizer(model_id: str):
 async def resolve_tokenizer(model_id: str):
   try:
     # if DEBUG >= 2: print(f"Trying AutoTokenizer for {model_id}")
-    if DEBUG >= 2: print(f"Trying AutoTokenizer for /nasroot/models/Meta-Llama-3-8B")
-    return AutoTokenizer.from_pretrained("/nasroot/models/Meta-Llama-3-8B")
+    if DEBUG >= 2: print(f"Trying AutoTokenizer for /nasroot/models/Qwen-1_8B-Chat")
+    return AutoTokenizer.from_pretrained("/nasroot/models/Qwen-1_8B-Chat")
     # return AutoTokenizer.from_pretrained(model_id)
   except Exception as e:
     if DEBUG >= 2: print(f"Failed to load tokenizer for {model_id}. Falling back to tinygrad tokenizer. Error: {e}")

@@ -242,7 +242,8 @@ class TinygradDynamicShardInferenceEngine(InferenceEngine):
     size = "8B"
 
     # 走本地路径
-    model_path = Path("/nasroot/models/Meta-Llama-3-8B")
+    # model_path = Path("/nasroot/models/Qwen-1_8B-Chat")
+    model_path = Path("/nasroot/models/Qwen-1_8B-Chat")
 
     if Path(model_path / "model.safetensors.index.json").exists():
       model = model_path
