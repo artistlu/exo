@@ -146,6 +146,20 @@ def linux_device_capabilities() -> DeviceCapabilities:
   from tinygrad import Device
 
   if DEBUG >= 2: print(f"tinygrad {Device.DEFAULT=}")
+  context = pyudev.Context()
+
+  # Check for Mali GPU
+  mali_gpu = next((device for device in context.list_devices(subsystem='mali0') if 'mali' in device.sys_name.lower()),
+                  None)
+  if mali_gpu:
+    gpu_name = mali_gpu.get('DEVNAME', 'Unknown Mali GPU')
+    return DeviceCapabilities(
+      model=f"Linux Box (ARM Mali)",
+      chip=gpu_name,
+      memory=psutil.virtual_memory().total // 2 ** 20,
+      flops=DeviceFlops(fp32=100, fp16=200, int8=400)  # Placeholder values, adjust as needed
+    )
+
   if Device.DEFAULT == "CUDA" or Device.DEFAULT == "NV" or Device.DEFAULT == "GPU":
     import pynvml
 
