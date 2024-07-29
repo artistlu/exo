@@ -2,6 +2,7 @@ from typing import Tuple, Union, Optional, Dict, Any
 from tinygrad import Tensor, Variable, TinyJit, dtypes, nn, Device
 from tinygrad.helpers import getenv
 from exo.inference.shard import Shard
+import torch
 
 
 # https://github.com/facebookresearch/llama/blob/1076b9c51c77ad06e9d7ba8a4c6df775741732bd/llama/model.py#L47
@@ -212,7 +213,9 @@ class Transformer:
 
     if self.shard.is_first_layer():
       h = self.tok_embeddings(h)
-    mask = Tensor.full((1, 1, seqlen, start_pos + seqlen), float("-inf"), dtype=h.dtype, device=h.device).triu(start_pos + 1).realize() if seqlen > 1 else None
+
+    # mask = Tensor.full((1, 1, seqlen, start_pos + seqlen), float("-inf"), dtype=h.dtype, device=h.device).triu(start_pos + 1).realize() if seqlen > 1 else None
+    mask = Tensor.full((1, 1, seqlen, start_pos + seqlen), float("-inf"), dtype= torch.float16, device=h.device).triu(start_pos + 1).realize() if seqlen > 1 else None
 
     for i, layer in enumerate(self.layers):
       h = layer(h, start_pos, freqs_cis, mask)
