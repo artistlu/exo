@@ -297,6 +297,7 @@ class TinygradDynamicShardInferenceEngine(InferenceEngine):
     model = build_transformer(model_path, shard=shard, model_size=size)
     tokenizer = Tokenizer(str((model_path if model_path.is_dir() else model_path.parent) / "tokenizer.model"))
 
+
     self.shard = shard
     self.model = model
     self.tokenizer = tokenizer
