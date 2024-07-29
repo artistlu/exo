@@ -158,7 +158,8 @@ def linux_device_capabilities() -> DeviceCapabilities:
             model=f"Linux Box (ARM Mali)",
             chip=gpu_name,
             memory=psutil.virtual_memory().total // 2**20,
-            flops=DeviceFlops(fp32=100, fp16=200, int8=400)  # Placeholder values, adjust as needed
+            # flops=DeviceFlops(fp32=100, fp16=200, int8=400)  # Placeholder values, adjust as needed
+            flops=DeviceFlops(fp32=100, fp16=100, int8=400)  # Placeholder values, adjust as needed
         )
 
     # Check for NVIDIA GPU
