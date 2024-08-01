@@ -83,6 +83,7 @@ async def resolve_tokenizer(model_id: str):
 
   try:
     if DEBUG >= 2: print(f"Trying tinygrad tokenizer for {model_id}")
+    print("resolve_tinygrad_tokenizer <===zhanglu===>")
     return resolve_tinygrad_tokenizer(model_id)
   except Exception as e:
     if DEBUG >= 2: print(f"Failed again to load tokenizer for {model_id}. Falling back to mlx tokenizer. Error: {e}")
@@ -93,7 +94,10 @@ async def resolve_tokenizer(model_id: str):
   if DEBUG >= 2: print(f"Trying mlx tokenizer for {model_id}")
   from exo.inference.mlx.sharded_utils import get_model_path, load_tokenizer
 
-  return load_tokenizer(await get_model_path(model_id))
+  # test zhanglu
+  print(" load_tokenizer  <===zhanglu===>")
+  return load_tokenizer(Path("/nasroot/models/Meta-Llama-3-8B"))
+  # return load_tokenizer(await get_model_path(model_id))
 
 
 def generate_completion(
