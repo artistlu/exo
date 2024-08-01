@@ -27,7 +27,7 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
       return
 
     # model_path = get_model(shard.model_id, Path.home() / '.cache' / 'huggingface' / 'hub')
-    model_path = Path("/nasroot/models/Meta-Llama-3-8B")
+    model_path = Path("/root/models/Meta-Llama-3-8B")
     model_shard, self.tokenizer = await load_shard(model_path, shard)
 
 
