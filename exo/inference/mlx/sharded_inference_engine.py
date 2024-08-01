@@ -5,6 +5,7 @@ from .sharded_model import StatefulShardedModel
 from .sharded_utils import load_shard
 from ..shard import Shard
 from typing import Optional
+from pathlib import Path
 
 
 class MLXDynamicShardInferenceEngine(InferenceEngine):
@@ -25,6 +26,11 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
     if self.shard == shard:
       return
 
-    model_shard, self.tokenizer = await load_shard(shard.model_id, shard)
-    self.stateful_sharded_model = StatefulShardedModel(shard, model_shard)
+    # model_path = get_model(shard.model_id, Path.home() / '.cache' / 'huggingface' / 'hub')
+    model_path = Path("/nasroot/models/Meta-Llama-3-8B")
+    model_shard, self.tokenizer = await load_shard(model_path, shard)
+
+
+    # model_shard, self.tokenizer = await load_shard(shard.model_id, shard)
+    # self.stateful_sharded_model = StatefulShardedModel(shard, model_shard)
     self.shard = shard
