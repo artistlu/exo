@@ -14,13 +14,12 @@ from exo.orchestration import Node
 
 shard_mappings = {
   ### llama
+  #### zhanglu01
+  # "llama-3.1-8b": {
+  #   "MLXDynamicShardInferenceEngine": Shard(model_id="mlx-community/Meta-Llama-3.1-8B-Instruct-4bit", start_layer=0, end_layer=0, n_layers=32),
+  # },
   "llama-3.1-8b": {
-<<<<<<< Updated upstream
-    # "MLXDynamicShardInferenceEngine": Shard(model_id="mlx-community/Meta-Llama-3.1-8B-Instruct-4bit", start_layer=0, end_layer=0, n_layers=32),
-    "MLXDynamicShardInferenceEngine": Shard(model_id="/nasroot/models/Meta-Llama-3-8B", start_layer=0, end_layer=0, n_layers=32),
-=======
-    "MLXDynamicShardInferenceEngine": Shard(model_id="mlx-community/Meta-Llama-3.1-8B-Instruct-4bit", start_layer=0, end_layer=0, n_layers=32),
->>>>>>> Stashed changes
+    "TinygradDynamicShardInferenceEngine": Shard(model_id="/nasroot/models/Meta-Llama-3-8B", start_layer=0, end_layer=0, n_layers=32),
   },
   "llama-3.1-70b": {
     "MLXDynamicShardInferenceEngine": Shard(model_id="mlx-community/Meta-Llama-3.1-70B-Instruct-4bit", start_layer=0, end_layer=0, n_layers=80),
@@ -29,11 +28,7 @@ shard_mappings = {
     "MLXDynamicShardInferenceEngine": Shard(model_id="mlx-community/Meta-Llama-3.1-405B-4bit", start_layer=0, end_layer=0, n_layers=126),
   },
   "llama-3-8b": {
-<<<<<<< Updated upstream
-    "MLXDynamicShardInferenceEngine": Shard(model_id="/nasroot/models/Meta-Llama-3-8B", start_layer=0, end_layer=0, n_layers=32),
-=======
     "MLXDynamicShardInferenceEngine": Shard(model_id="mlx-community/Meta-Llama-3-8B-Instruct-4bit", start_layer=0, end_layer=0, n_layers=32),
->>>>>>> Stashed changes
     "TinygradDynamicShardInferenceEngine": Shard(model_id="llama3-8b-sfr", start_layer=0, end_layer=0, n_layers=32),
   },
   "llama-3-70b": {
@@ -87,12 +82,10 @@ class ChatCompletionRequest:
 
 def resolve_tinygrad_tokenizer(model_id: str):
   if model_id == "llama3-8b-sfr":
-<<<<<<< Updated upstream
-    return AutoTokenizer.from_pretrained("/nasroot/models/Meta-Llama-3-8B")
+
+    ### zhanglu02
     # return AutoTokenizer.from_pretrained("TriAiExperiments/SFR-Iterative-DPO-LLaMA-3-8B-R")
-=======
-    return AutoTokenizer.from_pretrained("TriAiExperiments/SFR-Iterative-DPO-LLaMA-3-8B-R")
->>>>>>> Stashed changes
+    return AutoTokenizer.from_pretrained("/nasroot/models/Meta-Llama-3-8B")
   elif model_id == "llama3-70b-sfr":
     return AutoTokenizer.from_pretrained("TriAiExperiments/SFR-Iterative-DPO-LLaMA-3-8B-R")
   else:
@@ -101,12 +94,6 @@ def resolve_tinygrad_tokenizer(model_id: str):
 
 async def resolve_tokenizer(model_id: str):
   try:
-<<<<<<< Updated upstream
-    # if DEBUG >= 2: print(f"Trying AutoTokenizer for {model_id}")
-    if DEBUG >= 2: print(f"Trying AutoTokenizer for /nasroot/models/Meta-Llama-3-8B")
-    return AutoTokenizer.from_pretrained("/nasroot/models/Meta-Llama-3-8B")
-    # return AutoTokenizer.from_pretrained(model_id)
-=======
     if DEBUG >= 2: print(f"Trying AutoProcessor for {model_id}")
     processor = AutoProcessor.from_pretrained(model_id, use_fast=False)
     if not hasattr(processor, 'eos_token_id'):
@@ -125,7 +112,6 @@ async def resolve_tokenizer(model_id: str):
   try:
     if DEBUG >= 2: print(f"Trying AutoTokenizer for {model_id}")
     return AutoTokenizer.from_pretrained(model_id)
->>>>>>> Stashed changes
   except Exception as e:
     if DEBUG >= 2: print(f"Failed to load tokenizer for {model_id}. Falling back to tinygrad tokenizer. Error: {e}")
     import traceback
@@ -144,14 +130,7 @@ async def resolve_tokenizer(model_id: str):
   if DEBUG >= 2: print(f"Trying mlx tokenizer for {model_id}")
   from exo.inference.mlx.sharded_utils import get_model_path, load_tokenizer
 
-<<<<<<< Updated upstream
-  # test zhanglu
-  print(" load_tokenizer  <===zhanglu===>")
-  return load_tokenizer(Path("/nasroot/models/Meta-Llama-3-8B"))
-  # return load_tokenizer(await get_model_path(model_id))
-=======
   return load_tokenizer(await get_model_path(model_id))
->>>>>>> Stashed changes
 
 
 def generate_completion(
@@ -330,6 +309,7 @@ class ChatGPTAPI:
       )
 
     tokenizer = await resolve_tokenizer(shard.model_id)
+    print("resolve_tokenizer(shard.model_id) shard.model_id:", shard.model_id)
     if DEBUG >= 4: print(f"Resolved tokenizer: {tokenizer}")
 
     prompt, image_str = build_prompt(tokenizer, chat_request.messages)

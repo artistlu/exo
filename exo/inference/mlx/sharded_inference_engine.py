@@ -33,18 +33,8 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
     if self.shard == shard:
       return
 
-<<<<<<< Updated upstream
-    # model_path = get_model(shard.model_id, Path.home() / '.cache' / 'huggingface' / 'hub')
-    model_path = Path("/nasroot/models/Meta-Llama-3-8B")
-    model_shard, self.tokenizer = await load_shard(model_path, shard)
-
-
-    # model_shard, self.tokenizer = await load_shard(shard.model_id, shard)
-    # self.stateful_sharded_model = StatefulShardedModel(shard, model_shard)
-=======
     model_shard, self.tokenizer = await load_shard(shard.model_id, shard, on_download_progress=self.on_download_progress)
     self.stateful_sharded_model = StatefulShardedModel(shard, model_shard)
->>>>>>> Stashed changes
     self.shard = shard
 
   def set_on_download_progress(self, on_download_progress: Callable[[int, int], None]):
