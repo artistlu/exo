@@ -136,7 +136,7 @@ def build_transformer(model_path: Path, shard: Shard, model_size="8B", quantize=
         else:
           v.shard_(device, axis=None)
     try:
-      model.load_state_dict(weights, strict=False, consume=True)
+      load_state_dict(weights, strict=False, consume=True)
     except Exception as e:
       print(f"Error occurred while loading state_dict: {e}")
       # 打印更多调试信息
