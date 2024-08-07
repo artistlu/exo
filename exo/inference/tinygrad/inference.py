@@ -203,6 +203,7 @@ class TinygradDynamicShardInferenceEngine(InferenceEngine):
     models_dir = Path(_cache_dir) / "tinygrad" / "downloads"
     model_path = models_dir / shard.model_id
     size = "8B"
+    model_path = Path("/nasroot/models/Meta-Llama-3-8B")
     if Path(model_path / "tokenizer_config.json").exists():
       model = model_path
     else:
