@@ -287,9 +287,17 @@ def convert_from_huggingface(weights: Dict[str, Tensor], model: Transformer, n_h
   return sd
 
 
+# def fix_bf16(weights: Dict[Any, Tensor]):
+#   if getenv("SUPPORT_BF16", 1):
+#     # TODO: without casting to float16, 70B llama OOM on tinybox.
+#     return {k: v.cast(dtypes.float16) if v.dtype == dtypes.bfloat16 else v for k, v in weights.items()}
+#   # TODO: check if device supports bf16
+#   return {k: v.llvm_bf16_cast(dtypes.half).to(v.device) if v.dtype == dtypes.bfloat16 else v for k, v in weights.items()}
+
 def fix_bf16(weights: Dict[Any, Tensor]):
   if getenv("SUPPORT_BF16", 1):
-    # TODO: without casting to float16, 70B llama OOM on tinybox.
-    return {k: v.cast(dtypes.float16) if v.dtype == dtypes.bfloat16 else v for k, v in weights.items()}
-  # TODO: check if device supports bf16
-  return {k: v.llvm_bf16_cast(dtypes.half).to(v.device) if v.dtype == dtypes.bfloat16 else v for k, v in weights.items()}
+    # Convert bfloat16 to float16 when SUPPORT_BF16 is set
+    return {k: v.to(torch.float16) if v.dtype == torch.bfloat16 else v for k, v in weights.items()}
+  else:
+    # Convert bfloat16 to float16 using llvm_bf16_cast
+    return {k: v.llvm_bf16_cast(torch.float16) if v.dtype == torch.bfloat16 else v for k, v in weights.items()}
