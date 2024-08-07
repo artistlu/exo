@@ -295,6 +295,7 @@ def convert_from_huggingface(weights: Dict[str, Tensor], model: Transformer, n_h
 #   return {k: v.llvm_bf16_cast(dtypes.half).to(v.device) if v.dtype == dtypes.bfloat16 else v for k, v in weights.items()}
 
 def fix_bf16(weights: Dict[Any, Tensor]):
+  import torch
   if getenv("SUPPORT_BF16", 1):
     # Convert bfloat16 to float16 when SUPPORT_BF16 is set
     return {k: v.to(torch.float16) if v.dtype == torch.bfloat16 else v for k, v in weights.items()}
